@@ -95,12 +95,31 @@ of it via `object-position`; the login backdrop is the same image blurred. Origi
 5. New **flower-with-heir logo** replacing the old `✦` glyph.
 6. All artwork swapped to the **rainbow-pointillist scene** (`scene.png`).
 
+**Phase 2 — team page + nav + carousel (current)**
+1. New **`team.html`** — "Why Trust Us? / Meet the Team." Added to the nav on every page.
+   - 3 real members: **Shaun Tan** (CMO · Growth & Finance), **Zosimo Nera Jr.** (CTO · Business
+     Intelligence), **Ethan Taruc** (Head of Sales · GTM). Photos **background-removed with rembg**
+     (`u2net_human_seg`), cropped, saved to `team/`. Placed as cutouts on **rainbow gradients**
+     matching the home palette, with a pointillist dot sheen. Each has a **3-line bio**.
+   - 3 **"Coming soon"** placeholder cards (Operations, Legal & Compliance, Client Success) in the
+     same gradient family with a silhouette instead of a photo.
+2. **Requirements** grew from 4 → **8 cards** and became a **horizontal carousel**: the "marami
+   pang requirements" line moved **below the grid** as a pager with **left/right arrow buttons**
+   (JS scrolls the track). The old bobbing arrow cue above the grid was removed.
+3. **Hover-expand slowed** (transition `.55s → .95s`).
+4. Nav converted to **Apple liquid-glass** (`backdrop-filter: blur + saturate`, translucent white,
+   rim highlight). The **PAMANA logo was removed** from the header; the flower mark is retired
+   (footer/login keep only the **PAMANA** wordmark as text).
+
 ---
 
 ## 6. Tech notes
 
-- No framework, no build, no dependencies. Two HTML files with inline `<style>` + a tiny inline
-  `<script>` on `index.html` for the hover-scroll.
+- No framework, no build, no dependencies. Three HTML files with inline `<style>` + a tiny inline
+  `<script>` on `index.html` (hover-scroll + carousel arrows).
+- The nav uses `backdrop-filter` (liquid glass) — supported in current Chrome/Safari/Firefox.
+- Background removal is a one-time build step (rembg), not a runtime dependency; the cutout PNGs
+  are committed in `team/`.
 - Only external fetch is Google Fonts. Everything else is local, so the site works offline once
   fonts are cached.
 - Responsive: the card row stacks and the login grid collapses under 720px.

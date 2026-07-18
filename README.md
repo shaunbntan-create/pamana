@@ -9,7 +9,8 @@ Pure HTML + CSS. No build step, no framework, no dependencies. Just open the fil
 
 | File | What it is |
 |------|-----------|
-| `index.html` | Home / landing. Rainbow-pointillist hero, "Trusted by" logos, and a scroll-down **Requirements** ("Mga Kailangan Na Papeles Para sa Proseso") section with hover-expanding cards. |
+| `index.html` | Home / landing. Rainbow-pointillist hero, "Trusted by" logos, and a scroll-down **Requirements** section — an 8-card hover-expanding carousel with arrow paging. |
+| `team.html` | **"Why Trust Us?" / Meet the Team** — real members (background-removed photos on rainbow gradients) + "Coming soon" placeholders. |
 | `login.html` | The "Contact sales" destination. Login screen — "Where Estate Comes Easy". |
 
 ## Run it locally
