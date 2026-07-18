@@ -138,6 +138,8 @@
   .msg { max-width: 88%; font-size: 13.5px; line-height: 1.5; padding: 12px 14px; border-radius: 16px; }
   .msg.bot { align-self: flex-start; background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.8); border-bottom-left-radius: 5px; }
   .msg.me { align-self: flex-end; background: linear-gradient(135deg, #e0664a, #f0946f); color: #fff; border-bottom-right-radius: 5px; }
+  .msg.bot.typing { color: var(--soft); letter-spacing: .18em; animation: pmpulse 1s ease-in-out infinite; }
+  @keyframes pmpulse { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
   .sugs { display: flex; flex-direction: column; gap: 9px; margin-top: 14px; }
   .sug { text-align: left; font: inherit; font-size: 13px; font-weight: 500; color: var(--ink); padding: 11px 14px; border-radius: 12px; background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.8); cursor: pointer; transition: background .18s, transform .18s; }
   .sug:hover { background: #fff; transform: translateY(-1px); }
@@ -335,31 +337,78 @@
       if (n) n.addEventListener('click', function () { sc.scrollBy({ left: 260, behavior: 'smooth' }); });
     })();
 
-    // lightweight assistant chat (canned)
+    // PAMANA assistant chat - AI-powered via the /api/chat serverless proxy.
+    // The Gemini key lives server-side (Vercel env var GEMINI_API_KEY), never in
+    // this file or the browser. If the proxy is unreachable or not yet configured,
+    // it falls back to canned replies so the demo never breaks.
     (function () {
       var chat = document.getElementById('chat');
       var form = document.getElementById('asstForm');
       var input = document.getElementById('asstInput');
       var sugs = document.getElementById('sugs');
-      var replies = {
+
+      var CHAT_API = '/api/chat';
+
+      var fallback = {
         'what is a death certificate?': 'A Death Certificate is the official PSA record of a person\'s passing. It\'s the first document needed to begin any estate settlement.',
         'where do i get a cenomar?': 'A CENOMAR (Certificate of No Marriage) is issued by the PSA. You can request it here and we\'ll file it on your behalf.',
         'how long does processing take?': 'Most PSA documents take 3-5 working days. Registry of Deeds and BIR steps can take longer - each timeline shows live in your logs.',
         'contact government offices': 'We coordinate with the PSA, BIR, and Registry of Deeds for you. Use the Request buttons in Requirements Overview to start one.'
       };
+
+      // conversation history for the model (roles: user | model)
+      var history = [];
+
       function add(text, who) {
         var d = document.createElement('div');
         d.className = 'msg ' + who;
         d.textContent = text;
         chat.appendChild(d);
         chat.scrollTop = chat.scrollHeight;
+        return d;
       }
-      function ask(q) {
+
+      function cannedReply(q) {
+        return fallback[q.trim().toLowerCase()] ||
+          'Good question. A PAMANA specialist will walk you through that - meanwhile, check the Requirements Overview for where each document is filed.';
+      }
+
+      async function callProxy() {
+        var res = await fetch(CHAT_API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: history })
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        var data = await res.json();
+        var text = (data && data.text ? data.text : '').trim();
+        if (!text) throw new Error('empty response');
+        return text;
+      }
+
+      var busy = false;
+      async function ask(q) {
+        if (busy) return;
+        busy = true;
         add(q, 'me');
-        var key = q.trim().toLowerCase();
-        var a = replies[key] || 'Good question. A PAMANA specialist will walk you through that - meanwhile, check the Requirements Overview for where each document is filed.';
-        setTimeout(function () { add(a, 'bot'); }, 400);
+        var typing = add('...', 'bot');
+        typing.classList.add('typing');
+        try {
+          history.push({ role: 'user', parts: [{ text: q }] });
+          var answer = await callProxy();
+          history.push({ role: 'model', parts: [{ text: answer }] });
+          typing.textContent = answer;
+        } catch (err) {
+          // graceful offline fallback so the demo never dies
+          if (history.length && history[history.length - 1].role === 'user') history.pop();
+          typing.textContent = cannedReply(q);
+        } finally {
+          typing.classList.remove('typing');
+          chat.scrollTop = chat.scrollHeight;
+          busy = false;
+        }
       }
+
       sugs.querySelectorAll('.sug').forEach(function (b) {
         b.addEventListener('click', function () { ask(b.textContent); });
       });
