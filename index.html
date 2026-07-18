@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PAMANA — A place for faster estate process</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #1f2124;
+    --ink-soft: #55585c;
+    --bg: #eef0ea;
+    --panel: #f6f7f3;
+    --line: #e0e2da;
+    --accent: #2f5fe0;
+    --pill: #1a1b1a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Figtree', system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .art-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ---------- brand mark ---------- */
+  .logo-mark { width: 23px; height: 23px; display: block; flex: none; }
+  .brand { display: flex; align-items: center; gap: 9px; font-weight: 800; letter-spacing: .02em; font-size: 18px; margin-right: auto; }
+
+  /* ---------- floating pill nav ---------- */
+  .nav-wrap { position: sticky; top: 0; z-index: 50; display: flex; justify-content: center; padding: 20px 16px 0; }
+  .nav {
+    display: flex; align-items: center; gap: 10px;
+    width: min(880px, 100%);
+    background: var(--pill); color: #f4f4f2;
+    border-radius: 999px;
+    padding: 9px 9px 9px 22px;
+    box-shadow: 0 14px 40px -18px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .nav a.link {
+    position: relative; padding: 9px 15px; border-radius: 999px;
+    font-size: 14.5px; font-weight: 500; color: #d7d8d4;
+    transition: background .2s, color .2s;
+  }
+  .nav a.link::after {
+    content: ""; position: absolute; left: 15px; right: 15px; bottom: 5px; height: 1.5px;
+    background: #e9a24a; border-radius: 2px; transform: scaleX(0); transform-origin: left;
+    transition: transform .28s cubic-bezier(.4,0,.2,1);
+  }
+  .nav a.link:hover { color: #fff; }
+  .nav a.link:hover::after { transform: scaleX(1); }
+  .nav a.cta { background: #fbfbf9; color: #17181a; font-weight: 600; padding: 9px 18px; border-radius: 999px; font-size: 14.5px; transition: transform .2s, background .2s; }
+  .nav a.cta:hover { transform: translateY(-1px); background: #fff; }
+
+  /* ---------- hero ---------- */
+  .shell { width: min(1120px, 92vw); margin: 0 auto; }
+  .hero { padding: 26px 0 8px; }
+  .hero-art {
+    position: relative; width: 100%; height: clamp(320px, 46vw, 560px);
+    border-radius: 6px; overflow: hidden;
+    border: 1px solid rgba(0,0,0,.05);
+  }
+  .hero-foot { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: end; padding: 40px 4px 20px; }
+  .hero-title { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(38px, 6.4vw, 74px); line-height: .98; letter-spacing: -.035em; margin: 0; }
+  .trust { text-align: left; }
+  .trust h4 { font-size: 15px; font-weight: 600; color: var(--ink-soft); margin: 0 0 16px; }
+  .logos { display: flex; flex-wrap: wrap; gap: 22px 30px; align-items: center; }
+  .logos .logo { display: flex; align-items: center; gap: 8px; color: #7d8078; font-weight: 700; font-size: 17px; letter-spacing: -.02em; opacity: .9; }
+  .logos .logo svg { width: 20px; height: 20px; flex: none; }
+  .logos .logo.script { font-family: 'Newsreader', serif; font-weight: 500; font-style: italic; font-size: 20px; }
+
+  /* ---------- papeles section ---------- */
+  .papeles { padding: 96px 0 110px; }
+  .papeles-head { text-align: center; max-width: 780px; margin: 0 auto 40px; }
+  .papeles-head h2 { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(30px, 4.6vw, 52px); line-height: 1.02; letter-spacing: -.03em; margin: 0 0 16px; }
+  .papeles-head p { font-size: 17px; color: var(--ink-soft); margin: 0 0 26px; }
+
+  /* more-requirements arrow cue */
+  .more-cue { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); font-weight: 600; font-size: 14.5px; padding: 9px 8px 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); transition: background .2s, border-color .2s; }
+  .more-cue:hover { background: #fff; border-color: #cfd2c8; }
+  .more-cue .chev { display: inline-flex; width: 26px; height: 26px; align-items: center; justify-content: center; background: var(--pill); border-radius: 999px; color: #fff; animation: bob 1.5s ease-in-out infinite; }
+  .more-cue .chev svg { width: 15px; height: 15px; }
+  @keyframes bob { 0%,100% { transform: translateY(-2px); } 50% { transform: translateY(2px); } }
+
+  .row { display: flex; gap: 14px; }
+  .pcard {
+    position: relative; flex: 1 1 0; min-width: 0;
+    height: 440px; border-radius: 22px; overflow: hidden; cursor: pointer;
+    transition: flex-grow .55s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 18px 40px -26px rgba(0,0,0,.5);
+  }
+  .pcard img { position: absolute; inset: 0; }
+  .pcard .scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,18,6,.34) 0%, rgba(10,20,8,0) 26%, rgba(10,20,8,0) 40%, rgba(8,18,6,.76) 100%); }
+  .pcard:hover { flex-grow: 4.2; }
+  .pcard--open { flex-grow: 4.2; }
+  .row:hover .pcard--open:not(:hover) { flex-grow: 1; }
+
+  .pcard-body { position: absolute; left: 26px; right: 26px; bottom: 24px; color: #fff; opacity: 0; transform: translateY(8px); transition: opacity .4s .08s, transform .4s .08s; }
+  .pcard:hover .pcard-body, .pcard--open .pcard-body { opacity: 1; transform: none; }
+  .row:hover .pcard--open:not(:hover) .pcard-body { opacity: 0; }
+  .pcard-body .kicker { font-size: 12.5px; text-transform: uppercase; letter-spacing: .14em; opacity: .82; font-weight: 600; margin-bottom: 10px; }
+  .pcard-body h3 { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.12; letter-spacing: -.01em; margin: 0 0 8px; max-width: 22ch; }
+  .pcard-body p { font-size: 14.5px; line-height: 1.5; margin: 0; max-width: 46ch; color: rgba(255,255,255,.92); }
+  .readmore { position: absolute; top: 22px; right: 24px; color: #fff; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 7px; opacity: 0; transition: opacity .35s; }
+  .pcard:hover .readmore, .pcard--open .readmore { opacity: 1; }
+  .row:hover .pcard--open:not(:hover) .readmore { opacity: 0; }
+  .vlabel { position: absolute; bottom: 22px; left: 0; right: 0; text-align: center; color: #fff; font-weight: 600; font-size: 14px; letter-spacing: .01em; opacity: .95; transition: opacity .3s; padding: 0 8px; text-shadow: 0 1px 6px rgba(0,0,0,.4); }
+  .pcard:hover .vlabel, .pcard--open .vlabel { opacity: 0; }
+  .row:hover .pcard--open:not(:hover) .vlabel { opacity: .95; }
+
+  /* ---------- footer ---------- */
+  .foot { border-top: 1px solid var(--line); padding: 34px 0 56px; }
+  .foot-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .foot .brand { color: var(--ink); margin: 0; }
+  .foot .tag { color: var(--ink-soft); font-size: 14px; max-width: 320px; }
+
+  @media (max-width: 720px) {
+    .hero-foot { grid-template-columns: 1fr; gap: 24px; }
+    .row { flex-direction: column; }
+    .pcard, .pcard:hover, .pcard--open { flex-grow: 0; height: 240px; }
+    .pcard-body, .pcard .pcard-body, .row:hover .pcard--open:not(:hover) .pcard-body { opacity: 1; transform: none; }
+    .vlabel { display: none; }
+    .readmore { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- reusable PAMANA flower mark: a bloom passing to a smaller bloom (its heir) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="pmark" viewBox="0 0 27 27">
+      <path d="M10.5 14 C13 11.6, 15.6 11.2, 17.4 9.9" stroke="#7fa24a" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      <g fill="#e5943c">
+        <ellipse cx="9" cy="12" rx="2.2" ry="3.4" transform="rotate(0 9 15.5)"/>
+        <ellipse cx="9" cy="12" rx="2.2" ry="3.4" transform="rotate(72 9 15.5)"/>
+        <ellipse cx="9" cy="12" rx="2.2" ry="3.4" transform="rotate(144 9 15.5)"/>
+        <ellipse cx="9" cy="12" rx="2.2" ry="3.4" transform="rotate(216 9 15.5)"/>
+        <ellipse cx="9" cy="12" rx="2.2" ry="3.4" transform="rotate(288 9 15.5)"/>
+      </g>
+      <circle cx="9" cy="15.5" r="1.7" fill="#fcebc9"/>
+      <g fill="#e0664a">
+        <ellipse cx="18" cy="5.7" rx="1.5" ry="2.3" transform="rotate(0 18 8)"/>
+        <ellipse cx="18" cy="5.7" rx="1.5" ry="2.3" transform="rotate(72 18 8)"/>
+        <ellipse cx="18" cy="5.7" rx="1.5" ry="2.3" transform="rotate(144 18 8)"/>
+        <ellipse cx="18" cy="5.7" rx="1.5" ry="2.3" transform="rotate(216 18 8)"/>
+        <ellipse cx="18" cy="5.7" rx="1.5" ry="2.3" transform="rotate(288 18 8)"/>
+      </g>
+      <circle cx="18" cy="8" r="1.15" fill="#fcebc9"/>
+    </symbol>
+  </svg>
+
+  <div class="nav-wrap">
+    <nav class="nav">
+      <span class="brand"><svg class="logo-mark"><use href="#pmark"/></svg> PAMANA</span>
+      <a class="link" id="reqLink" href="#papeles">Requirements</a>
+      <a class="cta" href="login.html">Contact sales</a>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div class="shell">
+      <div class="hero-art">
+        <img class="art-img" src="scene.png" alt="Pointillist landscape with a red-roofed house below a rainbow mountain" />
+      </div>
+      <div class="hero-foot">
+        <h1 class="hero-title">A place for faster<br />estate process.</h1>
+        <div class="trust">
+          <h4>Trusted by</h4>
+          <div class="logos">
+            <span class="logo"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V7l8-4 8 4v13" stroke="#7d8078" stroke-width="1.7"/><path d="M9 20v-6h6v6" stroke="#7d8078" stroke-width="1.7"/></svg>Batasan Trust</span>
+            <span class="logo script">Notaryo&nbsp;PH</span>
+            <span class="logo"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="#7d8078" stroke-width="1.7"/><path d="M8 12l3 3 5-6" stroke="#7d8078" stroke-width="1.7"/></svg>Herencia</span>
+            <span class="logo"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="14" rx="2" stroke="#7d8078" stroke-width="1.7"/><path d="M4 10h16M9 5v14" stroke="#7d8078" stroke-width="1.7"/></svg>Titulo Co.</span>
+            <span class="logo">LandBank+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="papeles" id="papeles">
+    <div class="shell">
+      <div class="papeles-head">
+        <h2>Mga Kailangan Na Papeles<br />Para sa Proseso</h2>
+        <p>Pakipindot ang mga boxes para makita paano makuha.</p>
+        <a class="more-cue" href="#cardRow">
+          Marami pang requirements sa ibaba
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v13M6 12l6 6 6-6" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </div>
+
+      <div class="row" id="cardRow">
+        <article class="pcard pcard--open" data-label="Death Certificate">
+          <img class="art-img" src="scene.png" alt="" style="object-position: 45% 50%;" />
+          <div class="scrim"></div>
+          <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
+          <div class="pcard-body">
+            <div class="kicker">Hakbang 1</div>
+            <h3>Death Certificate mula sa PSA</h3>
+            <p>Kunin ang certified true copy ng death certificate sa PSA Serbilis o sa local civil registrar. Ito ang unang papeles bago mag-umpisa ang buong estate process.</p>
+          </div>
+          <div class="vlabel">Death Certificate</div>
+        </article>
+
+        <article class="pcard" data-label="Land Title">
+          <img class="art-img" src="scene.png" alt="" style="object-position: 8% 50%;" />
+          <div class="scrim"></div>
+          <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
+          <div class="pcard-body">
+            <div class="kicker">Hakbang 2</div>
+            <h3>Titulo ng Lupa (TCT / OCT)</h3>
+            <p>Hingin ang certified true copy ng titulo sa Registry of Deeds, kasama ang tax declaration at lot plan para ma-verify ang ari-arian.</p>
+          </div>
+          <div class="vlabel">Titulo ng Lupa</div>
+        </article>
+
+        <article class="pcard" data-label="Estate Tax">
+          <img class="art-img" src="scene.png" alt="" style="object-position: 72% 50%;" />
+          <div class="scrim"></div>
+          <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
+          <div class="pcard-body">
+            <div class="kicker">Hakbang 3</div>
+            <h3>Estate Tax at CAR sa BIR</h3>
+            <p>I-file ang estate tax return sa BIR at bayaran ang buwis para makuha ang Certificate Authorizing Registration (CAR) na kailangan sa transfer.</p>
+          </div>
+          <div class="vlabel">Estate Tax (BIR)</div>
+        </article>
+
+        <article class="pcard" data-label="Settlement">
+          <img class="art-img" src="scene.png" alt="" style="object-position: 95% 50%;" />
+          <div class="scrim"></div>
+          <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
+          <div class="pcard-body">
+            <div class="kicker">Hakbang 4</div>
+            <h3>Extrajudicial Settlement</h3>
+            <p>Ipa-notaryo ang deed of extrajudicial settlement ng mga tagapagmana at i-publish sa dyaryo ng tatlong linggo bago ang final transfer ng titulo.</p>
+          </div>
+          <div class="vlabel">Extrajudicial Settlement</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="shell foot-inner">
+      <span class="brand"><svg class="logo-mark"><use href="#pmark"/></svg> PAMANA</span>
+      <span class="tag">Shared Estate Profession for An Easier Journey.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Hover the Requirements nav link -> smoothly travel to the requirements section.
+    (function () {
+      var link = document.getElementById('reqLink');
+      var target = document.getElementById('papeles');
+      if (!link || !target) return;
+      var armed = true; // avoid re-firing while already there
+      link.addEventListener('mouseenter', function () {
+        if (!armed) return;
+        armed = false;
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(function () { armed = true; }, 900);
+      });
+    })();
+  </script>
+</body>
+</html>
