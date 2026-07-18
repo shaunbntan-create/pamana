@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — PAMANA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #26242b; --soft: #6f6b78; --line: #ececf2;
+    --card: rgba(255,255,255,.72); --card-bd: rgba(255,255,255,.85);
+    --violet: #7c6cf0; --violet2: #a08bf7;
+    --green: #1f9d55; --green-bg: #dcf6e6;
+    --amber: #cf8412; --amber-bg: #fdeecb;
+    --gray: #7b7f88; --gray-bg: #edeef2;
+    --blue: #3b74e0; --blue-bg: #e4edfd;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: 'Figtree', system-ui, sans-serif; color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    background:
+      radial-gradient(120% 90% at 0% 0%, #efe7f8 0%, rgba(239,231,248,0) 46%),
+      radial-gradient(120% 100% at 100% 100%, #fce7dc 0%, rgba(252,231,220,0) 50%),
+      linear-gradient(135deg, #f1ecf6 0%, #f6eef1 50%, #fbf0ea 100%);
+    background-attachment: fixed;
+  }
+  a { color: inherit; text-decoration: none; }
+  .glass { background: var(--card); -webkit-backdrop-filter: blur(22px) saturate(1.5); backdrop-filter: blur(22px) saturate(1.5); border: 1px solid var(--card-bd); box-shadow: 0 18px 44px -30px rgba(50,40,80,.5), inset 0 1px 0 rgba(255,255,255,.7); }
+
+  .app { display: grid; grid-template-columns: 236px 1fr; min-height: 100vh; }
+
+  /* ---------- sidebar ---------- */
+  .side { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 26px 18px; gap: 8px;
+    background: rgba(255,255,255,.5); -webkit-backdrop-filter: blur(22px) saturate(1.4); backdrop-filter: blur(22px) saturate(1.4);
+    border-right: 1px solid rgba(255,255,255,.6); }
+  .logo { font-weight: 800; letter-spacing: .06em; font-size: 22px; padding: 4px 12px 22px; }
+  .nav-item { display: flex; align-items: center; gap: 13px; padding: 12px 14px; border-radius: 13px; color: var(--soft); font-weight: 600; font-size: 15px; transition: background .2s, color .2s; }
+  .nav-item svg { width: 20px; height: 20px; flex: none; }
+  .nav-item:hover { background: rgba(124,108,240,.08); color: var(--ink); }
+  .nav-item.active { background: linear-gradient(120deg, rgba(124,108,240,.16), rgba(160,139,247,.12)); color: #4b3fbf; box-shadow: inset 0 0 0 1px rgba(124,108,240,.18); }
+  .nav-item.active svg { color: #6a5be0; }
+  .side .logout { margin-top: auto; }
+
+  /* ---------- topbar ---------- */
+  .main { padding: 22px 26px 30px; min-width: 0; }
+  .topbar { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; }
+  .search { margin-left: auto; display: flex; align-items: center; gap: 10px; width: min(340px, 40vw); padding: 11px 16px; border-radius: 999px; color: var(--soft); font-size: 14.5px;
+    background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.8); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .search svg { width: 17px; height: 17px; }
+  .search input { border: none; background: none; outline: none; font: inherit; color: var(--ink); width: 100%; }
+  .icon-btn { width: 42px; height: 42px; border-radius: 999px; display: grid; place-items: center; background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.8); cursor: pointer; position: relative; }
+  .icon-btn svg { width: 19px; height: 19px; color: var(--soft); }
+  .icon-btn .dot { position: absolute; top: 10px; right: 11px; width: 7px; height: 7px; border-radius: 50%; background: #ef6a4a; border: 1.5px solid #fff; }
+  .user { display: flex; align-items: center; gap: 10px; padding: 5px 12px 5px 5px; border-radius: 999px; background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.8); cursor: pointer; }
+  .avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 13px; background: linear-gradient(135deg, #7c6cf0, #a08bf7); }
+  .user span { font-weight: 600; font-size: 14.5px; }
+  .user .chev { width: 15px; height: 15px; color: var(--soft); }
+
+  .dash-head h1 { font-family: 'Manrope', sans-serif; font-weight: 800; letter-spacing: -.01em; font-size: 30px; margin: 0 0 6px; }
+  .dash-head p { color: var(--soft); margin: 0 0 22px; font-size: 15px; }
+
+  /* ---------- layout grid ---------- */
+  .grid { display: grid; grid-template-columns: 1fr 328px; gap: 18px; align-items: start; }
+  .left { display: grid; gap: 18px; min-width: 0; }
+  .r1 { display: grid; grid-template-columns: 1fr 1.42fr; gap: 18px; }
+  .r2 { display: grid; grid-template-columns: 1.62fr 1fr; gap: 18px; min-width: 0; }
+  .card { border-radius: 18px; padding: 20px 22px; }
+  .card-t { font-size: 12.5px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--soft); display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  .card-t .i { width: 15px; height: 15px; opacity: .6; }
+
+  /* amount saved */
+  .saved .amt { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 40px; letter-spacing: -.02em; line-height: 1; display: flex; align-items: baseline; gap: 2px; }
+  .saved .amt .cents { font-size: 22px; }
+  .saved-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+  .cut { background: linear-gradient(120deg, rgba(124,108,240,.14), rgba(160,139,247,.16)); color: #5647c9; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 999px; white-space: nowrap; }
+  .saved .sub { color: var(--soft); font-size: 14px; margin-top: 14px; }
+
+  /* quick overview */
+  .qgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 14px; background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.7); }
+  .stat .badge { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none; }
+  .stat .badge svg { width: 18px; height: 18px; }
+  .stat .k { font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--soft); font-weight: 600; }
+  .stat .v { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 21px; line-height: 1.1; }
+  .b-violet { background: var(--blue-bg); color: var(--blue); }
+  .b-green { background: var(--green-bg); color: var(--green); }
+  .b-amber { background: var(--amber-bg); color: var(--amber); }
+  .b-gray { background: var(--gray-bg); color: var(--gray); }
+
+  /* requirements table */
+  .rtable { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .rtable th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); font-weight: 700; padding: 0 10px 12px; }
+  .rtable td { padding: 11px 10px; border-top: 1px solid rgba(120,110,140,.1); vertical-align: middle; }
+  .rname { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+  .rname .ri { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: rgba(124,108,240,.1); color: #6a5be0; flex: none; }
+  .rname .ri svg { width: 15px; height: 15px; }
+  .badge-s { font-size: 11px; font-weight: 700; letter-spacing: .04em; padding: 5px 10px; border-radius: 999px; text-transform: uppercase; white-space: nowrap; }
+  .s-sub { background: var(--green-bg); color: var(--green); }
+  .s-pend { background: var(--amber-bg); color: var(--amber); }
+  .s-ns { background: var(--gray-bg); color: var(--gray); }
+  .req-btn { font-size: 12.5px; font-weight: 600; color: #5647c9; background: rgba(124,108,240,.1); border: 1px solid rgba(124,108,240,.2); padding: 6px 13px; border-radius: 999px; cursor: pointer; transition: background .2s; }
+  .req-btn:hover { background: rgba(124,108,240,.2); }
+  .muted { color: #b7b4bf; }
+  .rpager { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 14px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.7); }
+  .rpager .lbl { flex: 1; text-align: center; font-size: 11.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--soft); font-weight: 600; }
+  .parrow { width: 34px; height: 34px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; display: grid; place-items: center; }
+  .parrow:hover { background: #faf9fd; }
+  .parrow svg { width: 16px; height: 16px; }
+
+  /* status logs */
+  .logs { display: flex; flex-direction: column; gap: 2px; }
+  .log { display: grid; grid-template-columns: 26px 1fr; gap: 12px; text-align: left; width: 100%; background: none; border: none; font: inherit; color: inherit; cursor: pointer; padding: 12px 10px; border-radius: 12px; transition: background .18s; position: relative; }
+  .log:hover { background: rgba(124,108,240,.07); }
+  .log:focus-visible { outline: 2px solid var(--violet); outline-offset: 1px; }
+  .log .tl { display: flex; flex-direction: column; align-items: center; }
+  .log .tl .ring { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+  .log .tl .line { width: 2px; flex: 1; background: rgba(120,110,140,.15); margin-top: 4px; }
+  .log:last-child .tl .line { display: none; }
+  .log .ring svg { width: 14px; height: 14px; }
+  .log .when { display: block; font-size: 11.5px; color: var(--soft); margin-bottom: 3px; }
+  .log .ttl { display: block; font-weight: 700; font-size: 13.5px; }
+  .log .desc { display: block; font-size: 12.5px; color: var(--soft); margin-top: 2px; }
+  .log .more { font-size: 12.5px; color: var(--ink); margin-top: 7px; padding: 9px 11px; border-radius: 9px; background: rgba(124,108,240,.08); display: none; }
+  .log.open .more { display: block; }
+  .log .caret { position: absolute; top: 14px; right: 8px; color: #bfbcc8; transition: transform .2s; }
+  .log.open .caret { transform: rotate(90deg); }
+  .log .caret svg { width: 14px; height: 14px; }
+  .viewall { margin-top: 12px; width: 100%; padding: 11px; border-radius: 11px; border: 1px solid var(--line); background: rgba(255,255,255,.6); font: inherit; font-weight: 600; font-size: 13.5px; color: var(--ink); cursor: pointer; }
+  .viewall:hover { background: #fff; }
+
+  /* assistant */
+  .assistant { border-radius: 18px; padding: 20px; display: flex; flex-direction: column; height: 100%; min-height: 620px; }
+  .asst-head { display: flex; align-items: center; gap: 8px; font-size: 12.5px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--soft); margin-bottom: 16px; }
+  .asst-head .spark { width: 18px; height: 18px; color: var(--violet); }
+  .chat { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-right: 4px; }
+  .msg { max-width: 88%; font-size: 13.5px; line-height: 1.5; padding: 12px 14px; border-radius: 16px; }
+  .msg.bot { align-self: flex-start; background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.8); border-bottom-left-radius: 5px; }
+  .msg.me { align-self: flex-end; background: linear-gradient(135deg, #7c6cf0, #a08bf7); color: #fff; border-bottom-right-radius: 5px; }
+  .sugs { display: flex; flex-direction: column; gap: 9px; margin-top: 14px; }
+  .sug { text-align: left; font: inherit; font-size: 13px; font-weight: 500; color: var(--ink); padding: 11px 14px; border-radius: 12px; background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.8); cursor: pointer; transition: background .18s, transform .18s; }
+  .sug:hover { background: #fff; transform: translateY(-1px); }
+  .asst-input { display: flex; align-items: center; gap: 8px; margin-top: 14px; padding: 7px 7px 7px 16px; border-radius: 999px; background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.85); }
+  .asst-input input { flex: 1; border: none; background: none; outline: none; font: inherit; font-size: 14px; color: var(--ink); }
+  .send { width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer; display: grid; place-items: center; background: linear-gradient(135deg, #7c6cf0, #a08bf7); color: #fff; }
+  .send svg { width: 17px; height: 17px; }
+
+  .disclaimer { text-align: center; color: #9b98a4; font-size: 12.5px; margin: 26px auto 0; max-width: 720px; }
+
+  @media (max-width: 1080px) {
+    .grid { grid-template-columns: 1fr; }
+    .assistant { min-height: 480px; }
+  }
+  @media (max-width: 720px) {
+    .app { grid-template-columns: 1fr; }
+    .side { position: static; height: auto; flex-direction: row; overflow-x: auto; }
+    .side .logout { margin: 0; }
+    .r1, .r2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- sidebar: Dashboard + Quotation only -->
+    <aside class="side">
+      <div class="logo">PAMANA</div>
+      <a class="nav-item active" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="3" width="8" height="5" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="11" width="8" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="8" height="7" rx="2" stroke="currentColor" stroke-width="1.8"/></svg>
+        Dashboard
+      </a>
+      <a class="nav-item" href="quotation.html">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.8"/><path d="M14 3v5h5M9 13h6M9 17h6M9 9h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Quotation
+      </a>
+      <a class="nav-item logout" href="login.html">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 12H4m0 0l4-4m-4 4l4 4M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Log out
+      </a>
+    </aside>
+
+    <!-- main -->
+    <main class="main">
+      <div class="topbar">
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input placeholder="Search..." />
+        </label>
+        <button class="icon-btn" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span class="dot"></span>
+        </button>
+        <div class="user">
+          <span class="avatar">ZN</span>
+          <span>Zosimo Nera Jr.</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <div class="dash-head">
+        <h1>Dashboard</h1>
+        <p>Track your requirements, requests, and savings.</p>
+      </div>
+
+      <div class="grid">
+        <div class="left">
+
+          <div class="r1">
+            <!-- amount saved -->
+            <section class="card glass saved">
+              <div class="card-t">Amount Saved
+                <svg class="i" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="saved-row">
+                <div class="amt">₱248,750<span class="cents">.00</span></div>
+                <span class="cut">≈ 31.4% CUT</span>
+              </div>
+              <p class="sub">Estimated total savings on estate taxes.</p>
+            </section>
+
+            <!-- quick overview -->
+            <section class="card glass">
+              <div class="card-t">Quick Overview</div>
+              <div class="qgrid">
+                <div class="stat"><span class="badge b-violet"><svg viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><div><div class="k">Total Requirements</div><div class="v">8</div></div></div>
+                <div class="stat"><span class="badge b-green"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="k">Submitted</div><div class="v">3</div></div></div>
+                <div class="stat"><span class="badge b-amber"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><div><div class="k">Pending</div><div class="v">3</div></div></div>
+                <div class="stat"><span class="badge b-green"><svg viewBox="0 0 24 24" fill="none"><path d="M20 7L10 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="k">Completed</div><div class="v">2</div></div></div>
+              </div>
+            </section>
+          </div>
+
+          <div class="r2">
+            <!-- requirements overview -->
+            <section class="card glass">
+              <div class="card-t">Requirements Overview</div>
+              <div id="rscroll" style="overflow-x:auto;">
+              <table class="rtable">
+                <thead><tr><th>Requirement</th><th>Where to Find</th><th>Status</th><th>Request</th><th>Last Update</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="rname"><span class="ri"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.6"/></svg></span>Death Certificate (Original)</span></td><td>PSA</td><td><span class="badge-s s-sub">Submitted</span></td><td><span class="muted">—</span></td><td>May 17, 2025</td></tr>
+                  <tr><td><span class="rname"><span class="ri"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.6"/></svg></span>Certificate of No Marriage</span></td><td>PSA</td><td><span class="badge-s s-pend">Pending</span></td><td><button class="req-btn">Request</button></td><td>May 16, 2025</td></tr>
+                  <tr><td><span class="rname"><span class="ri"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.6"/></svg></span>Birth Certificate of Heirs</span></td><td>PSA</td><td><span class="badge-s s-pend">Pending</span></td><td><button class="req-btn">Request</button></td><td>May 16, 2025</td></tr>
+                  <tr><td><span class="rname"><span class="ri"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.6"/></svg></span>Marriage Certificate</span></td><td>PSA</td><td><span class="badge-s s-ns">Not Started</span></td><td><button class="req-btn">Request</button></td><td><span class="muted">—</span></td></tr>
+                  <tr><td><span class="rname"><span class="ri"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.6"/></svg></span>Transfer Certificate of Title</span></td><td>Registry of Deeds</td><td><span class="badge-s s-sub">Submitted</span></td><td><span class="muted">—</span></td><td>May 17, 2025</td></tr>
+                  <tr><td><span class="rname"><span class="ri"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.6"/></svg></span>Tax Declaration of Estate</span></td><td>BIR</td><td><span class="badge-s s-ns">Not Started</span></td><td><button class="req-btn">Request</button></td><td><span class="muted">—</span></td></tr>
+                  <tr><td><span class="rname"><span class="ri"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.6"/></svg></span>Waiver of Rights</span></td><td>Notary Public</td><td><span class="badge-s s-ns">Not Started</span></td><td><button class="req-btn">Request</button></td><td><span class="muted">—</span></td></tr>
+                  <tr><td><span class="rname"><span class="ri"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.6"/></svg></span>Affidavit of Undertaking</span></td><td>Notary Public</td><td><span class="badge-s s-ns">Not Started</span></td><td><button class="req-btn">Request</button></td><td><span class="muted">—</span></td></tr>
+                </tbody>
+              </table>
+              </div>
+              <div class="rpager">
+                <button class="parrow" id="rprev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                <span class="lbl">Marami pang requirements sa ibaba</span>
+                <button class="parrow" id="rnext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              </div>
+            </section>
+
+            <!-- status updates / logs (clickable) -->
+            <section class="card glass">
+              <div class="card-t">Status Updates / Logs</div>
+              <div class="logs">
+                <button class="log" type="button">
+                  <span class="tl"><span class="ring b-green"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="line"></span></span>
+                  <span><span class="when">May 17, 2025 · 10:30 AM</span><span class="ttl">Death Certificate (Original)</span><span class="desc">Successfully submitted.</span><span class="more">Reviewed and accepted by PAMANA. No further action needed on your end - we'll notify you of the next step.</span></span>
+                  <span class="caret"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <button class="log" type="button">
+                  <span class="tl"><span class="ring b-amber"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="line"></span></span>
+                  <span><span class="when">May 16, 2025 · 03:45 PM</span><span class="ttl">Certificate of No Marriage</span><span class="desc">Request sent to PSA.</span><span class="more">Your request is queued with the PSA. Typical turnaround is 3-5 working days. You'll see the status change here automatically.</span></span>
+                  <span class="caret"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <button class="log" type="button">
+                  <span class="tl"><span class="ring b-violet"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="line"></span></span>
+                  <span><span class="when">May 16, 2025 · 11:20 AM</span><span class="ttl">Birth Certificate of Heirs</span><span class="desc">For processing at PSA.</span><span class="more">Documents for all listed heirs are being processed together. We'll flag any mismatch in names or dates for you to confirm.</span></span>
+                  <span class="caret"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+                <button class="log" type="button">
+                  <span class="tl"><span class="ring b-gray"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="line"></span></span>
+                  <span><span class="when">May 15, 2025 · 09:10 AM</span><span class="ttl">Welcome to PAMANA</span><span class="desc">Let's get started on your estate tax journey.</span><span class="more">Your workspace is ready. Start by requesting the pending documents above, and PAMANA will track every step here.</span></span>
+                  <span class="caret"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </button>
+              </div>
+              <button class="viewall">View all logs</button>
+            </section>
+          </div>
+
+        </div>
+
+        <!-- PAMANA assistant chatbot -->
+        <aside class="assistant glass">
+          <div class="asst-head"><svg class="spark" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z" fill="currentColor"/></svg>PAMANA Assistant</div>
+          <div class="chat" id="chat">
+            <div class="msg bot">Hi Zosimo! 👋 I'm here to help you with your requirements and any questions about the process. How can I assist you today?</div>
+          </div>
+          <div class="sugs" id="sugs">
+            <button class="sug">What is a Death Certificate?</button>
+            <button class="sug">Where do I get a CENOMAR?</button>
+            <button class="sug">How long does processing take?</button>
+            <button class="sug">Contact government offices</button>
+          </div>
+          <form class="asst-input" id="asstForm">
+            <input id="asstInput" placeholder="Type your question..." autocomplete="off" />
+            <button class="send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l16-8-5 8 5 8-16-8z" fill="currentColor"/></svg></button>
+          </form>
+        </aside>
+      </div>
+
+      <p class="disclaimer">PAMANA is an independent service and is not affiliated with, endorsed by, or connected to any brand, agency, or government entity. Document requests are facilitated on your behalf.</p>
+    </main>
+  </div>
+
+  <script>
+    // clickable status logs -> expand detail
+    document.querySelectorAll('.log').forEach(function (l) {
+      l.addEventListener('click', function () { l.classList.toggle('open'); });
+    });
+
+    // requirements table horizontal scroll arrows (and vertical nudge if tall)
+    (function () {
+      var sc = document.getElementById('rscroll');
+      var p = document.getElementById('rprev'), n = document.getElementById('rnext');
+      if (!sc) return;
+      if (p) p.addEventListener('click', function () { sc.scrollBy({ left: -260, behavior: 'smooth' }); });
+      if (n) n.addEventListener('click', function () { sc.scrollBy({ left: 260, behavior: 'smooth' }); });
+    })();
+
+    // lightweight assistant chat (canned)
+    (function () {
+      var chat = document.getElementById('chat');
+      var form = document.getElementById('asstForm');
+      var input = document.getElementById('asstInput');
+      var sugs = document.getElementById('sugs');
+      var replies = {
+        'what is a death certificate?': 'A Death Certificate is the official PSA record of a person\'s passing. It\'s the first document needed to begin any estate settlement.',
+        'where do i get a cenomar?': 'A CENOMAR (Certificate of No Marriage) is issued by the PSA. You can request it here and we\'ll file it on your behalf.',
+        'how long does processing take?': 'Most PSA documents take 3-5 working days. Registry of Deeds and BIR steps can take longer - each timeline shows live in your logs.',
+        'contact government offices': 'We coordinate with the PSA, BIR, and Registry of Deeds for you. Use the Request buttons in Requirements Overview to start one.'
+      };
+      function add(text, who) {
+        var d = document.createElement('div');
+        d.className = 'msg ' + who;
+        d.textContent = text;
+        chat.appendChild(d);
+        chat.scrollTop = chat.scrollHeight;
+      }
+      function ask(q) {
+        add(q, 'me');
+        var key = q.trim().toLowerCase();
+        var a = replies[key] || 'Good question. A PAMANA specialist will walk you through that - meanwhile, check the Requirements Overview for where each document is filed.';
+        setTimeout(function () { add(a, 'bot'); }, 400);
+      }
+      sugs.querySelectorAll('.sug').forEach(function (b) {
+        b.addEventListener('click', function () { ask(b.textContent); });
+      });
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var v = input.value.trim();
+        if (!v) return;
+        input.value = '';
+        ask(v);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -11,7 +11,9 @@ Pure HTML + CSS. No build step, no framework, no dependencies. Just open the fil
 |------|-----------|
 | `index.html` | Home / landing. Rainbow-pointillist hero, "Trusted by" logos, and a scroll-down **Requirements** section — an 8-card hover-expanding carousel with arrow paging. |
 | `team.html` | **"Why Trust Us?" / Meet the Team** — real members (background-removed photos on rainbow gradients) + "Coming soon" placeholders. |
-| `login.html` | The "Contact sales" destination. Login screen — "Where Estate Comes Easy". |
+| `login.html` | The "Contact sales" destination. Login screen — "Where Estate Comes Easy". **Log in → `dashboard.html`.** |
+| `dashboard.html` | The app after login (liquid-glass). Amount Saved, Quick Overview, Requirements Overview table (with government **Request** buttons), clickable Status Updates/Logs, and the PAMANA Assistant chatbot. Sidebar: Dashboard + Quotation. |
+| `quotation.html` | Estate-tax savings breakdown (without vs. with PAMANA). Linked from the dashboard sidebar. |
 
 ## Run it locally
 

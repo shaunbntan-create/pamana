@@ -111,6 +111,25 @@ of it via `object-position`; the login backdrop is the same image blurred. Origi
    rim highlight). The **PAMANA logo was removed** from the header; the flower mark is retired
    (footer/login keep only the **PAMANA** wordmark as text).
 
+**Phase 3 — the app after login (current)**
+- **`login.html` now logs in → `dashboard.html`** (added a "Log in" button; the form redirects,
+  no backend).
+- New **`dashboard.html`** (liquid-glass app shell) modelled on the provided reference, with the
+  requested revisions:
+  - **Sidebar reduced to Dashboard + Quotation** only (+ Log out).
+  - **Kept:** Amount Saved (big ₱ + "% CUT" subtext), Quick Overview (8 / 3 / 3 / 2),
+    Requirements Overview table (Requirement · Where to Find · Status · **Request** · Last Update,
+    with a "marami pang requirements" pager), Status Updates/Logs, and the **PAMANA Assistant
+    chatbot** (working suggestion pills + input; canned replies).
+  - **Removed completely:** Quotation Summary, Request Government Document card, Value Proposition.
+  - **Status Updates are clickable** — each log expands an extra detail line.
+  - The per-row **Request** buttons are the "request from contact government" mechanism (the only
+    government-request UI that remains; the standalone card was removed).
+  - Added an explicit **"not affiliated with any brand, agency, or government entity"** disclaimer.
+- New **`quotation.html`** (Quotation sidebar destination): estate-tax estimate without vs. with
+  PAMANA (₱792,500 → ₱543,750, **you save ₱248,750 / 31.4%**) plus a line-item breakdown. This is
+  where the savings data lives now that it's off the dashboard.
+
 ---
 
 ## 6. Tech notes
