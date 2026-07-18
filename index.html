@@ -89,8 +89,8 @@
     transition: flex-basis .95s cubic-bezier(.33,0,.2,1);
     box-shadow: 0 18px 40px -26px rgba(0,0,0,.5);
   }
-  .pcard img { position: absolute; inset: 0; }
-  .pcard .scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,18,6,.34) 0%, rgba(10,20,8,0) 26%, rgba(10,20,8,0) 40%, rgba(8,18,6,.76) 100%); }
+  .pcard img { position: absolute; inset: 0; object-position: 50% 12%; background: #f4f5f2; }
+  .pcard .scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,18,6,.5) 0%, rgba(10,20,8,.05) 30%, rgba(10,20,8,.05) 40%, rgba(8,18,6,.84) 100%); }
   .pcard:hover { flex-basis: 470px; }
   .pcard--open { flex-basis: 470px; }
   .row:hover .pcard--open:not(:hover) { flex-basis: 210px; }
@@ -124,6 +124,25 @@
   .foot-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
   .wordmark { font-weight: 800; letter-spacing: .06em; font-size: 18px; color: var(--ink); }
   .foot .tag { color: var(--ink-soft); font-size: 14px; max-width: 320px; }
+
+  /* ---------- FAQ (gradient band) ---------- */
+  .faq { position: relative; padding: 100px 16px 116px; overflow: hidden; }
+  .faq-bg { position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(85% 72% at 50% 122%, #ff7a3a 0%, #ff525f 22%, #dd5aa0 40%, #b884cf 56%, #aeb0dd 72%, rgba(198,203,232,0) 88%),
+      linear-gradient(180deg, #c4cae7 0%, #cad0ea 45%, #d6d2e6 100%); }
+  .faq-grain { position: absolute; inset: 0; z-index: 0; opacity: .5; mix-blend-mode: soft-light;
+    background-image: radial-gradient(rgba(255,255,255,.5) 1px, transparent 1.4px); background-size: 5px 5px; }
+  .faq-inner { position: relative; z-index: 1; width: min(760px, 92vw); margin: 0 auto; }
+  .faq h2 { text-align: center; color: #29244a; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: clamp(32px, 4.8vw, 52px); letter-spacing: -.03em; margin: 0 0 12px; }
+  .faq .sub { text-align: center; color: #514c68; font-size: 16px; margin: 0 0 40px; }
+  .faq-list { display: flex; flex-direction: column; gap: 12px; }
+  .faq-item { background: rgba(255,255,255,.7); -webkit-backdrop-filter: blur(16px) saturate(1.5); backdrop-filter: blur(16px) saturate(1.5); border: 1px solid rgba(255,255,255,.65); border-radius: 16px; overflow: hidden; box-shadow: 0 14px 34px -22px rgba(60,20,50,.5); }
+  .faq-q { width: 100%; text-align: left; background: none; border: none; font: inherit; cursor: pointer; padding: 20px 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-weight: 700; font-size: 16px; color: #20222a; }
+  .faq-q .ic { flex: none; width: 22px; height: 22px; transition: transform .3s; color: #d8543a; }
+  .faq-item.open .faq-q .ic { transform: rotate(45deg); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+  .faq-a p { margin: 0; padding: 0 22px 20px; color: #4a4d52; font-size: 14.5px; line-height: 1.6; }
 
   @media (max-width: 720px) {
     .hero-foot { grid-template-columns: 1fr; gap: 24px; }
@@ -175,99 +194,135 @@
 
       <div class="row" id="cardRow">
         <article class="pcard pcard--open" data-label="Death Certificate">
-          <img class="art-img" src="scene.png" alt="" style="object-position: 45% 50%;" />
+          <img class="art-img" src="docs/death-cert.jpg" alt="Death Certificate" />
           <div class="scrim"></div>
           <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
           <div class="pcard-body">
             <div class="kicker">Hakbang 1</div>
-            <h3>Death Certificate mula sa PSA</h3>
-            <p>Kunin ang certified true copy ng death certificate sa PSA Serbilis o local civil registrar. Ito ang unang papeles bago magsimula.</p>
+            <h3>Death Certificate (PSA)</h3>
+            <p>Certified true copy ng death certificate mula sa PSA o local civil registrar. Ito ang unang papeles bago magsimula ang estate settlement.</p>
           </div>
           <div class="vlabel">Death Certificate</div>
         </article>
 
-        <article class="pcard" data-label="Land Title">
-          <img class="art-img" src="scene.png" alt="" style="object-position: 8% 50%;" />
+        <article class="pcard" data-label="Government ID">
+          <img class="art-img" src="docs/gov-id.png" alt="Government ID" />
           <div class="scrim"></div>
           <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
           <div class="pcard-body">
             <div class="kicker">Hakbang 2</div>
-            <h3>Titulo ng Lupa (TCT / OCT)</h3>
-            <p>Hingin ang certified true copy ng titulo sa Registry of Deeds, kasama ang tax declaration at lot plan para ma-verify ang ari-arian.</p>
+            <h3>Valid Government ID</h3>
+            <p>Valid government ID (PhilID, passport, o lisensya) ng mga tagapagmana para sa pagkakakilanlan sa lahat ng transaksyon.</p>
           </div>
-          <div class="vlabel">Titulo ng Lupa</div>
+          <div class="vlabel">Government ID</div>
         </article>
 
-        <article class="pcard" data-label="Estate Tax">
-          <img class="art-img" src="scene.png" alt="" style="object-position: 72% 50%;" />
+        <article class="pcard" data-label="BIR TIN">
+          <img class="art-img" src="docs/bir-tin.jpeg" alt="BIR TIN" />
           <div class="scrim"></div>
           <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
           <div class="pcard-body">
             <div class="kicker">Hakbang 3</div>
-            <h3>Estate Tax at CAR sa BIR</h3>
-            <p>I-file ang estate tax return at bayaran ang buwis para makuha ang Certificate Authorizing Registration (CAR) na kailangan sa transfer.</p>
+            <h3>TIN mula sa BIR</h3>
+            <p>TIN ng estate at ng mga heirs mula sa BIR. Kailangan ito bago mag-file ng estate tax return.</p>
           </div>
-          <div class="vlabel">Estate Tax (BIR)</div>
+          <div class="vlabel">BIR TIN</div>
         </article>
 
-        <article class="pcard" data-label="Settlement">
-          <img class="art-img" src="scene.png" alt="" style="object-position: 95% 50%;" />
+        <article class="pcard" data-label="Affidavit">
+          <img class="art-img" src="docs/affidavit.png" alt="Affidavit" />
           <div class="scrim"></div>
           <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
           <div class="pcard-body">
             <div class="kicker">Hakbang 4</div>
-            <h3>Extrajudicial Settlement</h3>
-            <p>Ipa-notaryo ang deed of extrajudicial settlement ng mga tagapagmana at i-publish sa dyaryo ng tatlong linggo bago ang final transfer.</p>
+            <h3>Affidavit ng mga Heirs</h3>
+            <p>Notarized affidavit (self-adjudication o affidavit of heirship) para patunayan ang mga detalye at karapatan sa mana.</p>
           </div>
-          <div class="vlabel">Extrajudicial Settlement</div>
+          <div class="vlabel">Affidavit</div>
         </article>
 
-        <article class="pcard" data-label="TIN Estate">
-          <img class="art-img" src="scene.png" alt="" style="object-position: 20% 50%;" />
+        <article class="pcard" data-label="EJS">
+          <img class="art-img" src="docs/ejs.png" alt="Deed of Extrajudicial Settlement" />
           <div class="scrim"></div>
           <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
           <div class="pcard-body">
             <div class="kicker">Hakbang 5</div>
-            <h3>TIN ng Estate (BIR)</h3>
-            <p>Mag-register ng hiwalay na TIN para sa estate sa BIR bago mag-file ng estate tax return. Ito ang gagamitin sa lahat ng buwis ng ari-arian.</p>
+            <h3>Deed of Extrajudicial Settlement</h3>
+            <p>Ipa-notaryo ang Deed of Extrajudicial Settlement of Estate kung walang testamento at magkakasundo ang mga tagapagmana.</p>
           </div>
-          <div class="vlabel">TIN ng Estate</div>
+          <div class="vlabel">Extrajudicial Settlement</div>
         </article>
 
-        <article class="pcard" data-label="Heir Certs">
-          <img class="art-img" src="scene.png" alt="" style="object-position: 60% 50%;" />
+        <article class="pcard" data-label="Publication">
+          <img class="art-img" src="docs/affidavit-publication.png" alt="Proof of Newspaper Publication" />
           <div class="scrim"></div>
           <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
           <div class="pcard-body">
             <div class="kicker">Hakbang 6</div>
-            <h3>Certs ng mga Tagapagmana (PSA)</h3>
-            <p>Kunin ang birth at marriage certificates ng mga heirs mula sa PSA para mapatunayan ang relasyon sa yumao at ang karapatan sa mana.</p>
+            <h3>Proof of Newspaper Publication</h3>
+            <p>I-publish ang EJS sa dyaryo ng tatlong sunod-sunod na linggo, at kunin ang affidavit of publication bilang patunay.</p>
           </div>
-          <div class="vlabel">Certs ng Heirs</div>
+          <div class="vlabel">Newspaper Publication</div>
         </article>
 
-        <article class="pcard" data-label="RPT Clearance">
-          <img class="art-img" src="scene.png" alt="" style="object-position: 35% 50%;" />
+        <article class="pcard" data-label="Estate Tax Return">
+          <img class="art-img" src="docs/estate-tax-return.png" alt="Estate Tax Return" />
           <div class="scrim"></div>
           <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
           <div class="pcard-body">
             <div class="kicker">Hakbang 7</div>
-            <h3>Real Property Tax Clearance</h3>
-            <p>Bayaran at kunin ang RPT clearance sa munisipyo para walang backlog ang real property bago ito i-transfer sa mga heirs.</p>
+            <h3>Estate Tax Return (BIR 1801)</h3>
+            <p>I-file ang Estate Tax Return (BIR Form 1801) at bayaran ang buwis para makuha ang Certificate Authorizing Registration (CAR).</p>
           </div>
-          <div class="vlabel">RPT Clearance (LGU)</div>
+          <div class="vlabel">Estate Tax Return</div>
         </article>
 
-        <article class="pcard" data-label="New Title">
-          <img class="art-img" src="scene.png" alt="" style="object-position: 85% 50%;" />
+        <article class="pcard" data-label="Tax Declaration">
+          <img class="art-img" src="docs/tax-declaration.png" alt="Tax Declaration of Real Property" />
           <div class="scrim"></div>
           <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
           <div class="pcard-body">
             <div class="kicker">Hakbang 8</div>
-            <h3>Bagong Titulo / Transfer</h3>
-            <p>Isumite ang CAR, deed, at mga clearance sa Registry of Deeds para ma-issue ang bagong titulo sa pangalan ng mga tagapagmana.</p>
+            <h3>Tax Declaration of Real Property</h3>
+            <p>Kunin ang updated tax declaration ng real property sa assessor's office para sa tamang valuation ng ari-arian.</p>
           </div>
-          <div class="vlabel">Bagong Titulo</div>
+          <div class="vlabel">Tax Declaration</div>
+        </article>
+
+        <article class="pcard" data-label="OCT">
+          <img class="art-img" src="docs/oct.png" alt="Original Certificate of Title" />
+          <div class="scrim"></div>
+          <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
+          <div class="pcard-body">
+            <div class="kicker">Hakbang 9</div>
+            <h3>Original Certificate of Title (OCT)</h3>
+            <p>Original Certificate of Title mula sa Registry of Deeds para sa lupang hindi pa nalilipat ang pagmamay-ari.</p>
+          </div>
+          <div class="vlabel">OCT</div>
+        </article>
+
+        <article class="pcard" data-label="TCT">
+          <img class="art-img" src="docs/tct.png" alt="Transfer Certificate of Title" />
+          <div class="scrim"></div>
+          <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
+          <div class="pcard-body">
+            <div class="kicker">Hakbang 10</div>
+            <h3>Transfer Certificate of Title (TCT)</h3>
+            <p>Transfer Certificate of Title mula sa Registry of Deeds para sa lupang dati nang nailipat ang pangalan.</p>
+          </div>
+          <div class="vlabel">TCT</div>
+        </article>
+
+        <article class="pcard" data-label="CCT">
+          <img class="art-img" src="docs/cct.png" alt="Condominium Certificate of Title" />
+          <div class="scrim"></div>
+          <a class="readmore" href="#">Pano makuha <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2"/></svg></a>
+          <div class="pcard-body">
+            <div class="kicker">Hakbang 11</div>
+            <h3>Condominium Certificate of Title</h3>
+            <p>Condominium Certificate of Title (CCT) para sa condo units, mula sa Registry of Deeds.</p>
+          </div>
+          <div class="vlabel">Condo Title</div>
         </article>
       </div>
 
@@ -282,8 +337,65 @@
           <button class="dot" aria-label="Requirement 6"></button>
           <button class="dot" aria-label="Requirement 7"></button>
           <button class="dot" aria-label="Requirement 8"></button>
+          <button class="dot" aria-label="Requirement 9"></button>
+          <button class="dot" aria-label="Requirement 10"></button>
+          <button class="dot" aria-label="Requirement 11"></button>
         </div>
         <button class="pbtn" id="nextBtn" aria-label="Susunod"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="faq-bg"></div>
+    <div class="faq-grain"></div>
+    <div class="faq-inner">
+      <h2>Mga Madalas Itanong</h2>
+      <p class="sub">Frequently asked questions about the estate process.</p>
+      <div class="faq-list" id="faqList">
+
+        <div class="faq-item open">
+          <button class="faq-q" type="button">Ano ang PAMANA?
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>PAMANA is an independent service na tumutulong sa mga pamilya na ayusin ang estate settlement - mula sa pangongolekta ng papeles hanggang sa pagbabayad ng estate tax at paglilipat ng titulo.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">Magkano ang matitipid ko sa estate tax?
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>Depende sa halaga ng estate, pero tinutulungan ka naming mabawasan ang buwis nang legal sa pamamagitan ng tamang deductions at pag-iwas sa penalties. Tingnan ang Quotation para sa iyong estimate.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">Gaano katagal ang proseso?
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>Karaniwang 2-6 na buwan depende sa dami ng ari-arian at bilis ng PSA, BIR, at Registry of Deeds. Live ang status ng bawat hakbang sa iyong dashboard.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">Anong mga papeles ang kailangan?
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>Kabilang dito ang death certificate, valid IDs, TIN, land titles, tax declarations, at ang extrajudicial settlement. Tingnan ang buong listahan sa Requirements sa itaas.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">Pwede ba kayong kumuha ng dokumento para sa akin?
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>Oo. Gamitin ang Request buttons sa dashboard at kami na ang bahala makipag-coordinate sa PSA, BIR, at Registry of Deeds sa ngalan mo.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">Kaugnay ba kayo ng gobyerno?
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>Hindi. PAMANA is an independent service at hindi kaugnay ng anumang brand, ahensya, o entidad ng gobyerno. Tinutulungan lang namin kayo sa proseso.</p></div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -351,6 +463,26 @@
       });
       window.addEventListener('resize', function () { base = cards.length ? cards[0].offsetLeft : 0; paintDots(); });
       paintDots();
+    })();
+
+    // FAQ accordion
+    (function () {
+      var items = document.querySelectorAll('#faqList .faq-item');
+      function setH(it) {
+        var a = it.querySelector('.faq-a');
+        a.style.maxHeight = it.classList.contains('open') ? (a.scrollHeight + 'px') : '0px';
+      }
+      items.forEach(function (it) {
+        setH(it);
+        it.querySelector('.faq-q').addEventListener('click', function () {
+          var wasOpen = it.classList.contains('open');
+          items.forEach(function (o) { o.classList.remove('open'); setH(o); });
+          if (!wasOpen) { it.classList.add('open'); setH(it); }
+        });
+      });
+      window.addEventListener('resize', function () {
+        items.forEach(function (it) { if (it.classList.contains('open')) setH(it); });
+      });
     })();
   </script>
 </body>

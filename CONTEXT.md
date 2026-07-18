@@ -144,6 +144,22 @@ of it via `object-position`; the login backdrop is the same image blurred. Origi
    violet to the site **coral** (`#e0664a`). Cards use a stronger **Apple liquid-glass** treatment
    (`blur(30px) saturate(180%)`, more translucent). Status colors (green/amber/gray) are unchanged.
 
+**Phase 5 — real documents, FAQs, new app pages (current)**
+1. **Landing Requirements → 11 real documents.** The card art now uses the actual PH estate documents
+   supplied via Google Drive (in `docs/`): Death Certificate, Government ID, BIR TIN, Affidavit, Deed
+   of Extrajudicial Settlement, Proof of Newspaper Publication, Estate Tax Return (BIR 1801), Tax
+   Declaration of Real Property, Original / Transfer / Condominium Certificate of Title. Each card's
+   description was rewritten to match; the dot pager now has 11 dots. Card scrim strengthened for
+   legibility over light document scans.
+2. **FAQ section added to the landing page** — a full-width gradient band (periwinkle → warm dome,
+   modeled on the "Flowy" reference image) with a Taglish accordion.
+3. **New app sidebar (all app pages), in order:** **Questions · Quotation · Dashboards · FAQs** (+ Log out).
+4. New **`questions.html`** — intake form: "Tungkol sa Iyo" (the client/heir) and "Tungkol sa Yumao"
+   (the deceased). Submit → `dashboard.html`.
+5. New **`faqs.html`** — the FAQ accordion on the same gradient panel, inside the app shell.
+6. Shared doc assets live in `docs/`; the FAQ gradient + accordion pattern is duplicated on the landing
+   page and `faqs.html`.
+
 ---
 
 ## 6. Tech notes

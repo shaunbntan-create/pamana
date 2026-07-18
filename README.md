@@ -9,11 +9,15 @@ Pure HTML + CSS. No build step, no framework, no dependencies. Just open the fil
 
 | File | What it is |
 |------|-----------|
-| `index.html` | Home / landing. Rainbow-pointillist hero, "Trusted by" logos, and a scroll-down **Requirements** section — an 8-card hover-expanding carousel with arrow paging. |
-| `team.html` | **"Why Trust Us?" / Meet the Team** — real members (background-removed photos on rainbow gradients) + "Coming soon" placeholders. |
+| `index.html` | Home / landing. Rainbow-pointillist hero, "Trusted by" logos, an **11-document Requirements** carousel (real PH estate documents), and a gradient **FAQ** section. |
+| `team.html` | **"Why Trust Us?" / Meet the Team** — the 3 members as sliding hover-expand cards (background-removed photos on rainbow gradients). |
 | `login.html` | The "Contact sales" destination. Login screen — "Where Estate Comes Easy". **Log in → `dashboard.html`.** |
-| `dashboard.html` | The app after login (liquid-glass). Amount Saved, Quick Overview, Requirements Overview table (with government **Request** buttons), clickable Status Updates/Logs, and the PAMANA Assistant chatbot. Sidebar: Dashboard + Quotation. |
-| `quotation.html` | Estate-tax savings breakdown (without vs. with PAMANA). Linked from the dashboard sidebar. |
+| `questions.html` | Intake form — about the client (heir) and the deceased. First item in the app sidebar. |
+| `quotation.html` | Estate-tax savings breakdown (without vs. with PAMANA). |
+| `dashboard.html` | The app after login (liquid-glass). Amount Saved, Quick Overview, Requirements Overview table (with government **Request** buttons), clickable Status Updates/Logs, and the PAMANA Assistant chatbot. |
+| `faqs.html` | Gradient FAQ page (accordion) in the app shell. |
+
+**App sidebar order (all app pages):** Questions · Quotation · Dashboards · FAQs · Log out.
 
 ## Run it locally
 
