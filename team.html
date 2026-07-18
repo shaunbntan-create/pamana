@@ -49,8 +49,11 @@
   .th p { font-size: 18px; line-height: 1.55; color: var(--ink-soft); margin: 0; }
 
   /* ---------- team grid ---------- */
-  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-bottom: 96px; }
-  .tcard { position: relative; height: 460px; border-radius: 24px; overflow: hidden; box-shadow: 0 22px 46px -28px rgba(30,30,20,.5); }
+  .team-row { display: flex; gap: 16px; padding-bottom: 96px; }
+  .tcard { position: relative; flex: 1 1 0; min-width: 0; height: 480px; border-radius: 24px; overflow: hidden; box-shadow: 0 22px 46px -28px rgba(30,30,20,.5); transition: flex-grow .7s cubic-bezier(.33,0,.2,1); }
+  .tcard:hover { flex-grow: 2.4; }
+  .tcard--open { flex-grow: 2.4; }
+  .team-row:hover .tcard--open:not(:hover) { flex-grow: 1; }
   /* pointillist sheen to match the home art */
   .tcard::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.6) 1px, transparent 1.5px); background-size: 7px 7px; opacity: .3; mix-blend-mode: soft-light; z-index: 1; pointer-events: none; }
   .g1 { background: linear-gradient(158deg, #f9c9d8 0%, #f7dd8f 54%, #a9d4e8 100%); }
@@ -60,7 +63,9 @@
   .g5 { background: linear-gradient(158deg, #d7c9ec 0%, #a9d4e8 52%, #f7dd8f 100%); }
   .g6 { background: linear-gradient(158deg, #f4b3c0 0%, #ffd7a0 52%, #bfe0cf 100%); }
 
-  .tinfo { position: absolute; top: 0; left: 0; right: 0; padding: 26px 26px 0; z-index: 3; }
+  .tinfo { position: absolute; top: 0; left: 0; right: 0; padding: 26px 26px 0; z-index: 3; opacity: 0; transform: translateY(6px); transition: opacity .45s .1s, transform .45s .1s; }
+  .tcard--open .tinfo, .tcard:hover .tinfo { opacity: 1; transform: none; }
+  .team-row:hover .tcard--open:not(:hover) .tinfo { opacity: 0; }
   .tname { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 23px; letter-spacing: -.02em; margin: 0 0 5px; color: #1a1c1e; }
   .trole { font-size: 12px; text-transform: uppercase; letter-spacing: .13em; font-weight: 700; color: var(--accent); margin: 0 0 12px; }
   .tbio { font-size: 14px; line-height: 1.5; color: #34373a; margin: 0;
@@ -68,10 +73,10 @@
 
   .tphoto { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); height: 66%; width: auto; object-fit: contain; object-position: bottom; z-index: 2; filter: drop-shadow(0 12px 20px rgba(20,20,10,.18)); }
 
-  /* placeholder silhouette */
-  .tph { position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 62%; height: auto; z-index: 2; opacity: .55; }
-  .tcard.placeholder .tname { color: #2a2c2e; opacity: .9; }
-  .badge { position: absolute; top: 24px; right: 24px; z-index: 3; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2a2c2e; background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.6); padding: 5px 11px; border-radius: 999px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  /* name pill shown while the card is collapsed */
+  .vlabel { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 4; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 16px; color: #26242b; background: rgba(255,255,255,.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); padding: 7px 16px; border-radius: 999px; white-space: nowrap; transition: opacity .35s; box-shadow: 0 6px 16px -8px rgba(0,0,0,.3); }
+  .tcard--open .vlabel, .tcard:hover .vlabel { opacity: 0; }
+  .team-row:hover .tcard--open:not(:hover) .vlabel { opacity: 1; }
 
   /* ---------- footer ---------- */
   .foot { border-top: 1px solid var(--line); padding: 34px 0 56px; }
@@ -79,8 +84,12 @@
   .wordmark { font-weight: 800; letter-spacing: .06em; font-size: 18px; color: var(--ink); }
   .foot .tag { color: var(--ink-soft); font-size: 14px; max-width: 320px; }
 
-  @media (max-width: 980px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 640px) { .team-grid { grid-template-columns: 1fr; } .tcard { height: 420px; } }
+  @media (max-width: 720px) {
+    .team-row { flex-direction: column; }
+    .tcard, .tcard:hover, .tcard--open { flex-grow: 0; height: 320px; }
+    .tcard .tinfo { opacity: 1; transform: none; }
+    .vlabel { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -100,15 +109,16 @@
   </header>
 
   <main class="shell">
-    <div class="team-grid">
+    <div class="team-row">
 
-      <article class="tcard g1">
+      <article class="tcard g1 tcard--open">
         <div class="tinfo">
           <h3 class="tname">Shaun Tan</h3>
           <p class="trole">CMO · Growth &amp; Finance</p>
           <p class="tbio">Finance and GTM operator from the startup world. Runs growth and marketing, and moves with real urgency.</p>
         </div>
         <img class="tphoto" src="team/shaun.png" alt="Shaun Tan" />
+        <span class="vlabel">Shaun Tan</span>
       </article>
 
       <article class="tcard g2">
@@ -118,6 +128,7 @@
           <p class="tbio">Business-intelligence expert bridging data analysis and automation. Builds the systems that keep it fast and reliable.</p>
         </div>
         <img class="tphoto" src="team/zos.png" alt="Zosimo Nera Jr." />
+        <span class="vlabel">Zosimo Nera Jr.</span>
       </article>
 
       <article class="tcard g3">
@@ -127,36 +138,7 @@
           <p class="tbio">Real-estate insider who knows the urgency of estate taxes. Leads sales and GTM, and nurtures every client.</p>
         </div>
         <img class="tphoto" src="team/ethan.png" alt="Ethan Taruc" />
-      </article>
-
-      <article class="tcard g4 placeholder">
-        <span class="badge">Coming soon</span>
-        <div class="tinfo">
-          <h3 class="tname">Joining soon</h3>
-          <p class="trole">Operations</p>
-          <p class="tbio">Papaparating pa. Kasaping maghahatid ng bilis at ayos sa bawat hakbang ng proseso.</p>
-        </div>
-        <svg class="tph" viewBox="0 0 120 130" fill="#ffffff"><circle cx="60" cy="42" r="30"/><path d="M8 130c0-34 24-52 52-52s52 18 52 52z"/></svg>
-      </article>
-
-      <article class="tcard g5 placeholder">
-        <span class="badge">Coming soon</span>
-        <div class="tinfo">
-          <h3 class="tname">Joining soon</h3>
-          <p class="trole">Legal &amp; Compliance</p>
-          <p class="tbio">Bakante pa. Eksperto sa batas ng mana na susuporta at magbabantay sa bawat pamilya.</p>
-        </div>
-        <svg class="tph" viewBox="0 0 120 130" fill="#ffffff"><circle cx="60" cy="42" r="30"/><path d="M8 130c0-34 24-52 52-52s52 18 52 52z"/></svg>
-      </article>
-
-      <article class="tcard g6 placeholder">
-        <span class="badge">Coming soon</span>
-        <div class="tinfo">
-          <h3 class="tname">Joining soon</h3>
-          <p class="trole">Client Success</p>
-          <p class="tbio">Susunod na kasapi. Handang mag-alaga sa bawat kliyente sa buong proseso ng mana.</p>
-        </div>
-        <svg class="tph" viewBox="0 0 120 130" fill="#ffffff"><circle cx="60" cy="42" r="30"/><path d="M8 130c0-34 24-52 52-52s52 18 52 52z"/></svg>
+        <span class="vlabel">Ethan Taruc</span>
       </article>
 
     </div>

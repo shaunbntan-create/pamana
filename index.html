@@ -59,7 +59,7 @@
 
   /* ---------- hero ---------- */
   .shell { width: min(1120px, 92vw); margin: 0 auto; }
-  .hero { padding: 26px 0 8px; margin-top: -66px; }
+  .hero { padding: 26px 0 8px; }
   .hero-art {
     position: relative; width: 100%; height: clamp(320px, 46vw, 560px);
     border-radius: 6px; overflow: hidden;
@@ -108,11 +108,12 @@
   .pcard:hover .vlabel, .pcard--open .vlabel { opacity: 0; }
   .row:hover .pcard--open:not(:hover) .vlabel { opacity: .95; }
 
-  /* pager below the grid */
-  .pager { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 26px; }
-  .pager-label { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14.5px; color: var(--ink-soft); }
-  .pager-label .count { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); color: var(--ink); font-size: 12.5px; font-weight: 700; }
-  .pager-btns { display: flex; gap: 10px; }
+  /* pager below the grid: centered arrows + one dot per requirement */
+  .pager { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 28px; }
+  .dots { display: flex; align-items: center; gap: 9px; }
+  .dot { width: 8px; height: 8px; padding: 0; border: none; border-radius: 999px; background: #cfd0c9; cursor: pointer; transition: width .3s, background .3s; }
+  .dot:hover { background: #b0b1a9; }
+  .dot.active { width: 26px; background: #e0664a; }
   .pbtn { width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background .2s, transform .2s, border-color .2s; }
   .pbtn:hover { background: #fff; border-color: #cfd2c8; transform: translateY(-1px); }
   .pbtn:active { transform: translateY(0); }
@@ -271,11 +272,18 @@
       </div>
 
       <div class="pager">
-        <span class="pager-label">Marami pang requirements <span class="count">8</span> mag-swipe pakaliwa o pakanan</span>
-        <div class="pager-btns">
-          <button class="pbtn" id="prevBtn" aria-label="Nakaraan"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <button class="pbtn" id="nextBtn" aria-label="Susunod"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="pbtn" id="prevBtn" aria-label="Nakaraan"><svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="dots" id="dots">
+          <button class="dot active" aria-label="Requirement 1"></button>
+          <button class="dot" aria-label="Requirement 2"></button>
+          <button class="dot" aria-label="Requirement 3"></button>
+          <button class="dot" aria-label="Requirement 4"></button>
+          <button class="dot" aria-label="Requirement 5"></button>
+          <button class="dot" aria-label="Requirement 6"></button>
+          <button class="dot" aria-label="Requirement 7"></button>
+          <button class="dot" aria-label="Requirement 8"></button>
         </div>
+        <button class="pbtn" id="nextBtn" aria-label="Susunod"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </div>
   </section>
@@ -303,15 +311,46 @@
       }
     })();
 
-    // Requirements carousel arrows
+    // Requirements carousel: centered arrows + one dot per requirement
     (function () {
       var row = document.getElementById('cardRow');
       var prev = document.getElementById('prevBtn');
       var next = document.getElementById('nextBtn');
+      var dotsWrap = document.getElementById('dots');
       if (!row) return;
-      var step = 470;
-      if (prev) prev.addEventListener('click', function () { row.scrollBy({ left: -step, behavior: 'smooth' }); });
-      if (next) next.addEventListener('click', function () { row.scrollBy({ left: step, behavior: 'smooth' }); });
+      var cards = Array.prototype.slice.call(row.querySelectorAll('.pcard'));
+      var dots = dotsWrap ? Array.prototype.slice.call(dotsWrap.querySelectorAll('.dot')) : [];
+      var base = cards.length ? cards[0].offsetLeft : 0;
+
+      function nearestIndex() {
+        var best = 0, bd = Infinity;
+        for (var i = 0; i < cards.length; i++) {
+          var d = Math.abs((cards[i].offsetLeft - base) - row.scrollLeft);
+          if (d < bd) { bd = d; best = i; }
+        }
+        return best;
+      }
+      function paintDots() {
+        var idx = nearestIndex();
+        dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
+      }
+      function goTo(i) {
+        i = Math.max(0, Math.min(cards.length - 1, i));
+        row.scrollTo({ left: cards[i].offsetLeft - base, behavior: 'smooth' });
+      }
+
+      dots.forEach(function (d, i) { d.addEventListener('click', function () { goTo(i); }); });
+      if (prev) prev.addEventListener('click', function () { goTo(nearestIndex() - 1); });
+      if (next) next.addEventListener('click', function () { goTo(nearestIndex() + 1); });
+
+      var ticking;
+      row.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { paintDots(); ticking = false; });
+      });
+      window.addEventListener('resize', function () { base = cards.length ? cards[0].offsetLeft : 0; paintDots(); });
+      paintDots();
     })();
   </script>
 </body>

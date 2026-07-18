@@ -11,7 +11,7 @@
   :root {
     --ink: #26242b; --soft: #6f6b78; --line: #ececf2;
     --card: rgba(255,255,255,.72); --card-bd: rgba(255,255,255,.85);
-    --violet: #7c6cf0; --violet2: #a08bf7;
+    --violet: #e0664a; --violet2: #f0946f;
     --green: #1f9d55; --green-bg: #dcf6e6;
     --amber: #cf8412; --amber-bg: #fdeecb;
     --gray: #7b7f88; --gray-bg: #edeef2;
@@ -21,15 +21,13 @@
   body {
     margin: 0; font-family: 'Figtree', system-ui, sans-serif; color: var(--ink);
     -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
-    background:
-      radial-gradient(120% 90% at 0% 0%, #efe7f8 0%, rgba(239,231,248,0) 46%),
-      radial-gradient(120% 100% at 100% 100%, #fce7dc 0%, rgba(252,231,220,0) 50%),
-      linear-gradient(135deg, #f1ecf6 0%, #f6eef1 50%, #fbf0ea 100%);
-    background-attachment: fixed;
+    min-height: 100vh; background: #eef0ea;
   }
+  /* same rainbow-scene theme as the login + landing pages */
+  #bg { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .22; filter: blur(48px) saturate(1.1); z-index: -2; }
+  body::after { content: ""; position: fixed; inset: 0; background: linear-gradient(135deg, rgba(238,240,234,.5), rgba(238,240,234,.3)); z-index: -1; }
   a { color: inherit; text-decoration: none; }
-  .glass { background: var(--card); -webkit-backdrop-filter: blur(22px) saturate(1.5); backdrop-filter: blur(22px) saturate(1.5); border: 1px solid var(--card-bd); box-shadow: 0 18px 44px -30px rgba(50,40,80,.5), inset 0 1px 0 rgba(255,255,255,.7); }
+  .glass { background: rgba(255,255,255,.55); -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%); border: 1px solid rgba(255,255,255,.6); box-shadow: 0 14px 44px -24px rgba(50,45,55,.4), inset 0 1px 0 rgba(255,255,255,.75); }
 
   .app { display: grid; grid-template-columns: 236px 1fr; min-height: 100vh; }
 
@@ -40,9 +38,9 @@
   .logo { font-weight: 800; letter-spacing: .06em; font-size: 22px; padding: 4px 12px 22px; }
   .nav-item { display: flex; align-items: center; gap: 13px; padding: 12px 14px; border-radius: 13px; color: var(--soft); font-weight: 600; font-size: 15px; transition: background .2s, color .2s; }
   .nav-item svg { width: 20px; height: 20px; flex: none; }
-  .nav-item:hover { background: rgba(124,108,240,.08); color: var(--ink); }
-  .nav-item.active { background: linear-gradient(120deg, rgba(124,108,240,.16), rgba(160,139,247,.12)); color: #4b3fbf; box-shadow: inset 0 0 0 1px rgba(124,108,240,.18); }
-  .nav-item.active svg { color: #6a5be0; }
+  .nav-item:hover { background: rgba(224,102,74,.08); color: var(--ink); }
+  .nav-item.active { background: linear-gradient(120deg, rgba(224,102,74,.16), rgba(240,148,111,.12)); color: #b23d2a; box-shadow: inset 0 0 0 1px rgba(224,102,74,.18); }
+  .nav-item.active svg { color: #c94f34; }
   .side .logout { margin-top: auto; }
 
   /* ---------- topbar ---------- */
@@ -56,7 +54,7 @@
   .icon-btn svg { width: 19px; height: 19px; color: var(--soft); }
   .icon-btn .dot { position: absolute; top: 10px; right: 11px; width: 7px; height: 7px; border-radius: 50%; background: #ef6a4a; border: 1.5px solid #fff; }
   .user { display: flex; align-items: center; gap: 10px; padding: 5px 12px 5px 5px; border-radius: 999px; background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.8); cursor: pointer; }
-  .avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 13px; background: linear-gradient(135deg, #7c6cf0, #a08bf7); }
+  .avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 13px; background: linear-gradient(135deg, #e0664a, #f0946f); }
   .user span { font-weight: 600; font-size: 14.5px; }
   .user .chev { width: 15px; height: 15px; color: var(--soft); }
 
@@ -76,7 +74,7 @@
   .saved .amt { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 40px; letter-spacing: -.02em; line-height: 1; display: flex; align-items: baseline; gap: 2px; }
   .saved .amt .cents { font-size: 22px; }
   .saved-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-  .cut { background: linear-gradient(120deg, rgba(124,108,240,.14), rgba(160,139,247,.16)); color: #5647c9; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 999px; white-space: nowrap; }
+  .cut { background: linear-gradient(120deg, rgba(224,102,74,.14), rgba(240,148,111,.16)); color: #b23d2a; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 999px; white-space: nowrap; }
   .saved .sub { color: var(--soft); font-size: 14px; margin-top: 14px; }
 
   /* quick overview */
@@ -96,14 +94,14 @@
   .rtable th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); font-weight: 700; padding: 0 10px 12px; }
   .rtable td { padding: 11px 10px; border-top: 1px solid rgba(120,110,140,.1); vertical-align: middle; }
   .rname { display: flex; align-items: center; gap: 10px; font-weight: 600; }
-  .rname .ri { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: rgba(124,108,240,.1); color: #6a5be0; flex: none; }
+  .rname .ri { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: rgba(224,102,74,.1); color: #c94f34; flex: none; }
   .rname .ri svg { width: 15px; height: 15px; }
   .badge-s { font-size: 11px; font-weight: 700; letter-spacing: .04em; padding: 5px 10px; border-radius: 999px; text-transform: uppercase; white-space: nowrap; }
   .s-sub { background: var(--green-bg); color: var(--green); }
   .s-pend { background: var(--amber-bg); color: var(--amber); }
   .s-ns { background: var(--gray-bg); color: var(--gray); }
-  .req-btn { font-size: 12.5px; font-weight: 600; color: #5647c9; background: rgba(124,108,240,.1); border: 1px solid rgba(124,108,240,.2); padding: 6px 13px; border-radius: 999px; cursor: pointer; transition: background .2s; }
-  .req-btn:hover { background: rgba(124,108,240,.2); }
+  .req-btn { font-size: 12.5px; font-weight: 600; color: #b23d2a; background: rgba(224,102,74,.1); border: 1px solid rgba(224,102,74,.2); padding: 6px 13px; border-radius: 999px; cursor: pointer; transition: background .2s; }
+  .req-btn:hover { background: rgba(224,102,74,.2); }
   .muted { color: #b7b4bf; }
   .rpager { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 14px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.7); }
   .rpager .lbl { flex: 1; text-align: center; font-size: 11.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--soft); font-weight: 600; }
@@ -114,7 +112,7 @@
   /* status logs */
   .logs { display: flex; flex-direction: column; gap: 2px; }
   .log { display: grid; grid-template-columns: 26px 1fr; gap: 12px; text-align: left; width: 100%; background: none; border: none; font: inherit; color: inherit; cursor: pointer; padding: 12px 10px; border-radius: 12px; transition: background .18s; position: relative; }
-  .log:hover { background: rgba(124,108,240,.07); }
+  .log:hover { background: rgba(224,102,74,.07); }
   .log:focus-visible { outline: 2px solid var(--violet); outline-offset: 1px; }
   .log .tl { display: flex; flex-direction: column; align-items: center; }
   .log .tl .ring { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; flex: none; }
@@ -124,7 +122,7 @@
   .log .when { display: block; font-size: 11.5px; color: var(--soft); margin-bottom: 3px; }
   .log .ttl { display: block; font-weight: 700; font-size: 13.5px; }
   .log .desc { display: block; font-size: 12.5px; color: var(--soft); margin-top: 2px; }
-  .log .more { font-size: 12.5px; color: var(--ink); margin-top: 7px; padding: 9px 11px; border-radius: 9px; background: rgba(124,108,240,.08); display: none; }
+  .log .more { font-size: 12.5px; color: var(--ink); margin-top: 7px; padding: 9px 11px; border-radius: 9px; background: rgba(224,102,74,.08); display: none; }
   .log.open .more { display: block; }
   .log .caret { position: absolute; top: 14px; right: 8px; color: #bfbcc8; transition: transform .2s; }
   .log.open .caret { transform: rotate(90deg); }
@@ -139,13 +137,13 @@
   .chat { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-right: 4px; }
   .msg { max-width: 88%; font-size: 13.5px; line-height: 1.5; padding: 12px 14px; border-radius: 16px; }
   .msg.bot { align-self: flex-start; background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.8); border-bottom-left-radius: 5px; }
-  .msg.me { align-self: flex-end; background: linear-gradient(135deg, #7c6cf0, #a08bf7); color: #fff; border-bottom-right-radius: 5px; }
+  .msg.me { align-self: flex-end; background: linear-gradient(135deg, #e0664a, #f0946f); color: #fff; border-bottom-right-radius: 5px; }
   .sugs { display: flex; flex-direction: column; gap: 9px; margin-top: 14px; }
   .sug { text-align: left; font: inherit; font-size: 13px; font-weight: 500; color: var(--ink); padding: 11px 14px; border-radius: 12px; background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.8); cursor: pointer; transition: background .18s, transform .18s; }
   .sug:hover { background: #fff; transform: translateY(-1px); }
   .asst-input { display: flex; align-items: center; gap: 8px; margin-top: 14px; padding: 7px 7px 7px 16px; border-radius: 999px; background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.85); }
   .asst-input input { flex: 1; border: none; background: none; outline: none; font: inherit; font-size: 14px; color: var(--ink); }
-  .send { width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer; display: grid; place-items: center; background: linear-gradient(135deg, #7c6cf0, #a08bf7); color: #fff; }
+  .send { width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer; display: grid; place-items: center; background: linear-gradient(135deg, #e0664a, #f0946f); color: #fff; }
   .send svg { width: 17px; height: 17px; }
 
   .disclaimer { text-align: center; color: #9b98a4; font-size: 12.5px; margin: 26px auto 0; max-width: 720px; }
@@ -163,6 +161,7 @@
 </style>
 </head>
 <body>
+  <img id="bg" src="scene.png" alt="" />
   <div class="app">
 
     <!-- sidebar: Dashboard + Quotation only -->

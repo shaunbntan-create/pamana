@@ -130,6 +130,20 @@ of it via `object-position`; the login backdrop is the same image blurred. Origi
   PAMANA (₱792,500 → ₱543,750, **you save ₱248,750 / 31.4%**) plus a line-item breakdown. This is
   where the savings data lives now that it's off the dashboard.
 
+**Phase 4 — polish + unification (current)**
+1. **Team page:** removed the 3 "Coming soon" placeholders. The 3 real members now use the **same
+   sliding hover-expand interaction as the requirements cards** (`.team-row`; first card open, hover
+   expands one and collapses the rest to a name pill).
+2. **Landing requirements pager:** removed the "Marami pang requirements" label. The pager is now
+   **centered arrows with one dot per requirement** (8 dots); the active dot tracks scroll position
+   and clicking a dot/arrow scrolls to that card.
+3. **Landing hero:** removed the negative top margin so the **photo sits below the glass header**
+   (the nav no longer overlaps it).
+4. **Dashboard + Quotation retheme:** now share the **login/landing theme** — off-white base with the
+   blurred **rainbow scene** (`scene.png`) as a faint fixed backdrop, and the accent shifted from
+   violet to the site **coral** (`#e0664a`). Cards use a stronger **Apple liquid-glass** treatment
+   (`blur(30px) saturate(180%)`, more translucent). Status colors (green/amber/gray) are unchanged.
+
 ---
 
 ## 6. Tech notes
